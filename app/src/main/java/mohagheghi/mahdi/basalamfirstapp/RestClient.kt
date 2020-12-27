@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 
 class RestClient private constructor() {
     companion object {
-        private const val BASE_URL = "https://api.basalam.com/api/user"
+        private const val BASE_URL = "https://api.basalam.com/api/"
         private lateinit var apiService: ApiService
         private var instance: RestClient? = null
         fun getInstance(): RestClient {

@@ -28,7 +28,7 @@ class ProductRepository {
 
     fun getProducts(networkResponseCallback: NetworkResponseCallback): MutableLiveData<List<Product.Products>>{
         callback = networkResponseCallback
-        if (products.value!!.isEmpty()){
+        if (products.value!!.isNotEmpty()){
             callback.onNetworkRequestSuccess()
             return products
         }
