@@ -24,7 +24,7 @@ class ProductViewModel : ViewModel() {
 
             override fun onNetworkRequestFailure(t: Throwable) {
                 loading.hide()
-                Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "خطا! لطفا مجددا تلاش کنید", Toast.LENGTH_SHORT).show()
             }
         })
         return products
