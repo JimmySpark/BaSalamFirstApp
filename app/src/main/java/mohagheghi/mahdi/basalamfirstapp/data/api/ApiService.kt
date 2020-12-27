@@ -1,5 +1,6 @@
-package mohagheghi.mahdi.basalamfirstapp
+package mohagheghi.mahdi.basalamfirstapp.data.api
 
+import mohagheghi.mahdi.basalamfirstapp.data.model.Product
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

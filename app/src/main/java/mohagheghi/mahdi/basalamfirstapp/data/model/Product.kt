@@ -1,4 +1,4 @@
-package mohagheghi.mahdi.basalamfirstapp
+package mohagheghi.mahdi.basalamfirstapp.data.model
 
 data class Product(
     var data: Data

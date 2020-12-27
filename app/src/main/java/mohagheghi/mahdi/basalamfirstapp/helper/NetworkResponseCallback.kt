@@ -1,4 +1,4 @@
-package mohagheghi.mahdi.basalamfirstapp
+package mohagheghi.mahdi.basalamfirstapp.helper
 
 interface NetworkResponseCallback {
     fun onNetworkRequestSuccess()

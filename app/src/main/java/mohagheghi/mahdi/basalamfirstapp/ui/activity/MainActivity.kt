@@ -1,10 +1,11 @@
-package mohagheghi.mahdi.basalamfirstapp
+package mohagheghi.mahdi.basalamfirstapp.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import mohagheghi.mahdi.basalamfirstapp.viewmodel.ProductViewModel
+import mohagheghi.mahdi.basalamfirstapp.ui.adapter.ProductsAdapter
 import mohagheghi.mahdi.basalamfirstapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -27,9 +28,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
 
-        viewModel.getProducts(this).observe(this, Observer { products ->
+        viewModel.getProducts(this).observe(this, { products ->
             productAdapter.submitList(products)
         })
     }

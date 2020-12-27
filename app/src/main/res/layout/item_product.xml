@@ -70,6 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:text="نام محصول"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -81,6 +83,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="غرفه: نام غرفه"
                 android:textColor="@color/gray"
                 app:fontFamily="@font/vazir"
@@ -88,7 +92,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/weight"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="start"

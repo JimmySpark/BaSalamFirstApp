@@ -1,4 +1,4 @@
-package mohagheghi.mahdi.basalamfirstapp
+package mohagheghi.mahdi.basalamfirstapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import mohagheghi.mahdi.basalamfirstapp.R
+import mohagheghi.mahdi.basalamfirstapp.data.model.Product
 import mohagheghi.mahdi.basalamfirstapp.databinding.ItemProductBinding
 
 class ProductsAdapter :
@@ -28,9 +30,9 @@ class ProductsAdapter :
             binding.title.text = product.name
             binding.vendor.text = "غرفه: ${product.vendor.name}"
             binding.weight.text = "${product.weight} گرم"
-            binding.price.text = "${product.price} تومان"
+            binding.price.text = String.format("%,3d تومان", product.price)
             binding.rating.text = product.rating.rating.toString()
-            binding.ratingCount.text = product.rating.count.toString()
+            binding.ratingCount.text = "(${product.rating.count})"
             Picasso.get().load(product.photo.url).placeholder(R.drawable.ic_logo_basalam)
                 .into(binding.image)
         }

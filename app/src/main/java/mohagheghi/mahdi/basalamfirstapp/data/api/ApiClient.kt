@@ -1,19 +1,19 @@
-package mohagheghi.mahdi.basalamfirstapp
+package mohagheghi.mahdi.basalamfirstapp.data.api
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class RestClient private constructor() {
+class ApiClient private constructor() {
     companion object {
-        private const val BASE_URL = "https://api.basalam.com/api/user"
+        private const val BASE_URL = "https://api.basalam.com/api/"
         private lateinit var apiService: ApiService
-        private var instance: RestClient? = null
-        fun getInstance(): RestClient {
+        private var instance: ApiClient? = null
+        fun getInstance(): ApiClient {
             if (instance == null) {
                 synchronized(this) {
-                    instance = RestClient()
+                    instance = ApiClient()
                 }
             }
             return instance!!
