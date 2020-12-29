@@ -1,125 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="8dp"
     android:layoutDirection="rtl"
-    android:orientation="vertical">
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="16dp">
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="16dp">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:src="@drawable/ic_logo_basalam"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/whiteTransparent"
+            android:gravity="center"
+            android:paddingStart="6dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/image"
+            app:layout_constraintStart_toStartOf="@id/image">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:src="@drawable/ic_logo_basalam"
-                app:layout_constraintHeight_percent="0.6"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/whiteTransparent"
-                android:gravity="center"
-                android:paddingStart="6dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="6dp"
-                android:paddingBottom="4dp"
-                app:layout_constraintBottom_toBottomOf="@id/image"
-                app:layout_constraintStart_toStartOf="@id/image">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star"
-                    app:tint="@color/colorAccent" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="4.8"
-                    android:textColor="@color/black"
-                    app:fontFamily="@font/vazir_light" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/rating_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="(6)"
-                    android:textColor="@color/black"
-                    app:fontFamily="@font/vazir_light" />
-
-            </LinearLayout>
+                android:src="@drawable/ic_star"
+                app:tint="@color/colorAccent" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="نام محصول"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:fontFamily="@font/vazir_medium"
-                app:layout_constraintTop_toBottomOf="@id/image" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/vendor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="غرفه: نام غرفه"
-                android:textColor="@color/gray"
-                app:fontFamily="@font/vazir"
-                app:layout_constraintTop_toBottomOf="@id/title" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/weight"
+                android:id="@+id/rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:gravity="start"
-                android:text="200 گرم"
-                android:textColor="@color/gray"
-                android:textSize="12sp"
-                app:fontFamily="@font/vazir"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/price"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_marginStart="4dp"
+                android:text="4.8"
+                android:textColor="@color/black"
+                app:fontFamily="@font/vazir_light" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/price"
-                android:layout_width="0dp"
+                android:id="@+id/rating_count"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:gravity="end"
-                android:text="400,000,000 تومان"
+                android:layout_marginStart="4dp"
+                android:text="(6)"
                 android:textColor="@color/black"
-                android:textSize="13sp"
-                app:fontFamily="@font/vazir"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/weight" />
+                app:fontFamily="@font/vazir_light" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="نام محصول"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:fontFamily="@font/vazir_medium"
+            app:layout_constraintTop_toBottomOf="@id/image" />
 
-</LinearLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/vendor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="غرفه: نام غرفه"
+            android:textColor="@color/gray"
+            app:fontFamily="@font/vazir"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="start"
+            android:text="200 گرم"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            app:fontFamily="@font/vazir"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vendor" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="end"
+            android:text="400,000,000 تومان"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:fontFamily="@font/vazir"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/weight"
+            app:layout_constraintTop_toBottomOf="@id/vendor" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import mohagheghi.mahdi.basalamfirstapp.R
-import mohagheghi.mahdi.basalamfirstapp.data.model.Product
+import mohagheghi.mahdi.basalamfirstapp.data.local.entity.Product
 import mohagheghi.mahdi.basalamfirstapp.databinding.ItemProductBinding
 
 class ProductsAdapter :
-    ListAdapter<Product.Products, ProductsAdapter.ProductViewHolder>(DiffCallback()) {
+    ListAdapter<Product, ProductsAdapter.ProductViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,7 +26,7 @@ class ProductsAdapter :
     class ProductViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(product: Product.Products) {
+        fun bind(product: Product) {
             binding.title.text = product.name
             binding.vendor.text = "غرفه: ${product.vendor.name}"
             binding.weight.text = "${product.weight} گرم"
@@ -38,17 +38,17 @@ class ProductsAdapter :
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Product.Products>() {
+    class DiffCallback : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(
-            oldItem: Product.Products,
-            newItem: Product.Products
+            oldItem: Product,
+            newItem: Product
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: Product.Products,
-            newItem: Product.Products
+            oldItem: Product,
+            newItem: Product
         ): Boolean {
             return oldItem == newItem
         }

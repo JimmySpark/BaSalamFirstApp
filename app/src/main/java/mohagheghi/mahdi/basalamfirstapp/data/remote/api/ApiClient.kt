@@ -22,12 +22,12 @@ class ApiClient private constructor() {
 
     init {
         val okHttpClient = OkHttpClient().newBuilder().connectTimeout(15, TimeUnit.SECONDS)
-            .readTimeout(15, TimeUnit.SECONDS)
-            .build()
+                .readTimeout(15, TimeUnit.SECONDS)
+                .build()
         val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
         apiService = retrofit.create(ApiService::class.java)
     }
 
