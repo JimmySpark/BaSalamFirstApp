@@ -13,24 +13,20 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
 
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
+        private var instance: AppDatabase? = null
 
         fun getInstance(context: Context): AppDatabase {
             synchronized(this) {
-                var instance = INSTANCE
-
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context,
                         AppDatabase::class.java,
                         "app_db"
                     )
-                        .allowMainThreadQueries()
                         .fallbackToDestructiveMigration()
                         .build()
                 }
-                return instance
+                return instance!!
             }
         }
     }

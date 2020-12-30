@@ -2,8 +2,10 @@ package mohagheghi.mahdi.basalamfirstapp.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import mohagheghi.mahdi.basalamfirstapp.ThreadExecutor
 import mohagheghi.mahdi.basalamfirstapp.data.api.ApiClient
 import mohagheghi.mahdi.basalamfirstapp.data.local.AppDatabase
 import mohagheghi.mahdi.basalamfirstapp.databinding.ActivityMainBinding
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: ProductViewModel
     private lateinit var loading: Loading
+    private var isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,21 +38,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         loading = Loading(this)
-        loading.show()
+        isLoading.observe(this, {
+            if (it)
+                loading.show()
+            else
+                loading.hide()
+        })
 
         val repository = ProductRepository(
             AppDatabase.getInstance(this).productDao(),
-            ApiClient.getInstance().getApiService()
+            ApiClient.getInstance().getApiService(),
+            ThreadExecutor(),
+            isLoading
         )
         viewModel = ViewModelProvider(
             this,
             ProductViewModelFactory(repository)
         ).get(ProductViewModel::class.java)
-        viewModel.getProducts().observe(this, { products ->
-            if (products.isNotEmpty()) {
-                loading.hide()
-            }
-            productAdapter.submitList(products)
+        viewModel.products.observe(this, {
+            productAdapter.submitList(it)
         })
     }
 }
