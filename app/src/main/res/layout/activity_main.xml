@@ -66,4 +66,17 @@
         app:spanCount="2"
         tools:listitem="@layout/item_product" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_no_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_product"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:fontFamily="@font/vazir"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

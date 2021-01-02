@@ -1,6 +1,6 @@
 package mohagheghi.mahdi.basalamfirstapp.data.api
 
-import mohagheghi.mahdi.basalamfirstapp.data.remote.model.Products
+import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -13,5 +13,5 @@ interface ApiService {
     fun getProducts(
         @Field("query") query: String =
             "{productSearch(size: 20) {products {id name photo(size: LARGE) { url } vendor { name } weight price rating { rating count: signals } } } }"
-    ): Call<Products>
+    ): Call<JsonObject>
 }
