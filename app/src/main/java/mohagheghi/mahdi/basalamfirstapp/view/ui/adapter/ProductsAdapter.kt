@@ -1,4 +1,4 @@
-package mohagheghi.mahdi.basalamfirstapp.ui.adapter
+package mohagheghi.mahdi.basalamfirstapp.view.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,8 +1,8 @@
-package mohagheghi.mahdi.basalamfirstapp.viewmodel
+package mohagheghi.mahdi.basalamfirstapp.view.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import mohagheghi.mahdi.basalamfirstapp.repository.ProductRepository
+import mohagheghi.mahdi.basalamfirstapp.view.repository.ProductRepository
 
 class ProductViewModelFactory(private val repository: ProductRepository) :
     ViewModelProvider.Factory {

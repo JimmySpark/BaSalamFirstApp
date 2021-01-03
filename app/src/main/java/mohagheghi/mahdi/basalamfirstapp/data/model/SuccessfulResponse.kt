@@ -1,4 +1,4 @@
-package mohagheghi.mahdi.basalamfirstapp.data.remote.response
+package mohagheghi.mahdi.basalamfirstapp.data.model
 
 import mohagheghi.mahdi.basalamfirstapp.data.local.entity.Product
 

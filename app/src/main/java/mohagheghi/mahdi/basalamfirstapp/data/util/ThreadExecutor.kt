@@ -1,4 +1,4 @@
-package mohagheghi.mahdi.basalamfirstapp.util
+package mohagheghi.mahdi.basalamfirstapp.data.util
 
 import java.util.concurrent.Executor
 

@@ -1,29 +1,30 @@
-package mohagheghi.mahdi.basalamfirstapp.ui.activity
+package mohagheghi.mahdi.basalamfirstapp.view.ui.activity
 
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import mohagheghi.mahdi.basalamfirstapp.util.ThreadExecutor
 import mohagheghi.mahdi.basalamfirstapp.data.api.ApiClient
 import mohagheghi.mahdi.basalamfirstapp.data.local.AppDatabase
+import mohagheghi.mahdi.basalamfirstapp.data.util.ThreadExecutor
 import mohagheghi.mahdi.basalamfirstapp.databinding.ActivityMainBinding
-import mohagheghi.mahdi.basalamfirstapp.repository.ProductRepository
-import mohagheghi.mahdi.basalamfirstapp.ui.adapter.ProductsAdapter
-import mohagheghi.mahdi.basalamfirstapp.util.Loading
-import mohagheghi.mahdi.basalamfirstapp.viewmodel.ProductViewModel
-import mohagheghi.mahdi.basalamfirstapp.viewmodel.ProductViewModelFactory
+import mohagheghi.mahdi.basalamfirstapp.view.repository.ProductRepository
+import mohagheghi.mahdi.basalamfirstapp.view.ui.UiState
+import mohagheghi.mahdi.basalamfirstapp.view.ui.adapter.ProductsAdapter
+import mohagheghi.mahdi.basalamfirstapp.view.util.Loading
+import mohagheghi.mahdi.basalamfirstapp.view.viewmodel.ProductViewModel
+import mohagheghi.mahdi.basalamfirstapp.view.viewmodel.ProductViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: ProductViewModel
+    private lateinit var productAdapter: ProductsAdapter
     private lateinit var loading: Loading
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val productAdapter = ProductsAdapter()
-
+        productAdapter = ProductsAdapter()
         binding.apply {
             recyclerProducts.apply {
                 adapter = productAdapter
@@ -46,36 +46,39 @@ class MainActivity : AppCompatActivity() {
             ApiClient.getInstance().getApiService(),
             ThreadExecutor()
         )
-        viewModel = ViewModelProvider(
-            this,
-            ProductViewModelFactory(repository)
-        ).get(ProductViewModel::class.java)
+        viewModel = ViewModelProvider(this, ProductViewModelFactory(repository))
+            .get(ProductViewModel::class.java)
 
-        viewModel.products.observe(this, {
-            productAdapter.submitList(it)
-        })
         loading = Loading(this)
-        viewModel.onLoading.observe(this, {
-            if (it)
-                loading.show()
-            else
-                loading.hide()
-        })
-        viewModel.onError.observe(this, {
-            val (errorCode, errorMessage) = it
-            if (errorCode > 0)
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-        })
-        viewModel.onFailure.observe(this, {
-            if (it != null)
-                Log.e("get_products", it)
-            showConnectionErrorSnackBar()
-        })
-        viewModel.onEmptyList.observe(this, {
-            binding.txtNoProduct.isVisible = it
-        })
+
+        initObservers()
     }
 
+    fun initObservers() {
+        viewModel.data.observe(this, {
+            when (it) {
+                is UiState.Loading -> loading.show()
+                is UiState.Success -> {
+                    loading.hide()
+                    it.products.observe(this, {
+                        productAdapter.submitList(it)
+                    })
+                }
+                is UiState.EmptyList -> {
+                    loading.hide()
+                    binding.txtNoProduct.isVisible = true
+                }
+                is UiState.Error.ResponseError -> {
+                    loading.hide()
+                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                }
+                is UiState.Error.NetworkError -> {
+                    loading.hide()
+                    showConnectionErrorSnackBar()
+                }
+            }
+        })
+    }
 
     fun showConnectionErrorSnackBar() {
         val snackBar = Snackbar.make(

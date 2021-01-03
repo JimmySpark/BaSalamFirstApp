@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:layoutDirection="rtl"
-    tools:context=".ui.activity.MainActivity">
+    tools:context=".view.ui.activity.MainActivity">
 
     <RelativeLayout
         android:id="@+id/toolbar"

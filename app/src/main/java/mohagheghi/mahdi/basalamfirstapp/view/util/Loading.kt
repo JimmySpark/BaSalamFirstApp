@@ -1,4 +1,4 @@
-package mohagheghi.mahdi.basalamfirstapp.util
+package mohagheghi.mahdi.basalamfirstapp.view.util
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -15,14 +15,14 @@ class Loading(context: Context) {
         val binding = LoadingBinding.inflate(LayoutInflater.from(context))
         builder.setView(binding.root)
         dialog = builder.create()
-        dialog!!.window?.setBackgroundDrawableResource(R.drawable.bg_dialog_transparent)
+        dialog.window?.setBackgroundDrawableResource(R.drawable.bg_dialog_transparent)
     }
 
     fun show() {
-        dialog!!.show()
+        dialog.show()
     }
 
     fun hide() {
-        dialog!!.dismiss()
+        dialog.dismiss()
     }
 }
