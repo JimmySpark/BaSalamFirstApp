@@ -2,7 +2,7 @@ package mohagheghi.mahdi.basalamfirstapp.view.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import mohagheghi.mahdi.basalamfirstapp.view.repository.ProductRepository
+import mohagheghi.mahdi.basalamfirstapp.data.repository.ProductRepository
 
 class ProductViewModelFactory(private val repository: ProductRepository) :
     ViewModelProvider.Factory {

@@ -9,11 +9,11 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import mohagheghi.mahdi.basalamfirstapp.data.api.ApiClient
+import mohagheghi.mahdi.basalamfirstapp.data.api.Api
 import mohagheghi.mahdi.basalamfirstapp.data.local.AppDatabase
+import mohagheghi.mahdi.basalamfirstapp.data.repository.ProductRepository
 import mohagheghi.mahdi.basalamfirstapp.data.util.ThreadExecutor
 import mohagheghi.mahdi.basalamfirstapp.databinding.ActivityMainBinding
-import mohagheghi.mahdi.basalamfirstapp.view.repository.ProductRepository
 import mohagheghi.mahdi.basalamfirstapp.view.ui.UiState
 import mohagheghi.mahdi.basalamfirstapp.view.ui.adapter.ProductsAdapter
 import mohagheghi.mahdi.basalamfirstapp.view.util.Loading
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         val repository = ProductRepository(
             AppDatabase.getInstance(this).productDao(),
-            ApiClient.getInstance().getApiService(),
+            Api.getInstance().getApollo(),
             ThreadExecutor()
         )
         viewModel = ViewModelProvider(this, ProductViewModelFactory(repository))
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         initObservers()
     }
 
-    fun initObservers() {
+    private fun initObservers() {
         viewModel.data.observe(this, {
             when (it) {
                 is UiState.Loading -> loading.show()
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun showConnectionErrorSnackBar() {
+    private fun showConnectionErrorSnackBar() {
         val snackBar = Snackbar.make(
             binding.root,
             "ارتباط برقرار نشد! لطفا مجددا تلاش کنید",

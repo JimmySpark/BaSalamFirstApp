@@ -19,6 +19,6 @@ interface ProductDao {
     @Query("DELETE FROM tbl_products")
     fun deleteAll()
 
-    @Query("SELECT COUNT(*) FROM tbl_products")
-    fun getCount(): Int
+    /*@Query("SELECT COUNT(*) FROM tbl_products")
+    fun getCount(): Int*/
 }
