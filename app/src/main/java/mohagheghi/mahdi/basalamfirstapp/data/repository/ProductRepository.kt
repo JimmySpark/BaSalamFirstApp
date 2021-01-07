@@ -3,12 +3,10 @@ package mohagheghi.mahdi.basalamfirstapp.data.repository
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
-import com.apollographql.apollo.api.toJson
 import com.apollographql.apollo.exception.ApolloException
-import com.google.gson.Gson
 import mohagheghi.mahdi.basalamfirstapp.GetProductsQuery
+import mohagheghi.mahdi.basalamfirstapp.data.util.ProductMapper
 import mohagheghi.mahdi.basalamfirstapp.data.local.dao.ProductDao
-import mohagheghi.mahdi.basalamfirstapp.data.model.SuccessfulResponse
 import mohagheghi.mahdi.basalamfirstapp.view.util.ResponseState
 import java.util.concurrent.Executor
 
@@ -23,10 +21,7 @@ class ProductRepository(
             ApolloCall.Callback<GetProductsQuery.Data>() {
             override fun onResponse(response: Response<GetProductsQuery.Data>) {
                 if (response.data != null) {
-                    val res =
-                        Gson().fromJson(response.data?.toJson(), SuccessfulResponse::class.java)
-                    val products = res.data.productSearch.products
-//                        products = emptyList()
+                    val products = ProductMapper(response.data!!).map()
                     executor.execute {
                         productDao.deleteAll()
                         productDao.addAll(products)
