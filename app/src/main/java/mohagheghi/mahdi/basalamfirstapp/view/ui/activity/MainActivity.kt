@@ -4,33 +4,28 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import mohagheghi.mahdi.basalamfirstapp.App
+import dagger.hilt.android.AndroidEntryPoint
 import mohagheghi.mahdi.basalamfirstapp.databinding.ActivityMainBinding
-import mohagheghi.mahdi.basalamfirstapp.di.component.ActivityComponent
-import mohagheghi.mahdi.basalamfirstapp.di.component.AppComponent
 import mohagheghi.mahdi.basalamfirstapp.view.ui.adapter.ProductsAdapter
 import mohagheghi.mahdi.basalamfirstapp.view.util.Loading
 import mohagheghi.mahdi.basalamfirstapp.view.util.UiState
 import mohagheghi.mahdi.basalamfirstapp.view.viewmodel.ProductViewModel
-import mohagheghi.mahdi.basalamfirstapp.view.viewmodel.ViewModelFactory
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: ProductViewModel
-    private lateinit var appComponent: AppComponent
-    private lateinit var activityComponent: ActivityComponent
+    private val viewModel: ProductViewModel by viewModels()
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    @Inject
     lateinit var productAdapter: ProductsAdapter
+
     @Inject
     lateinit var loading: Loading
 
@@ -39,15 +34,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        appComponent = (application as App).getComponent()
-        activityComponent = appComponent.getActivityComponentFactory().create(this)
-        activityComponent.inject(this)
-
         initRecyclerView()
-
-        viewModel = ViewModelProvider(this, viewModelFactory)
-            .get(ProductViewModel::class.java)
-
         initObservers()
     }
 
@@ -55,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.data.observe(this, {
             it.products.observe(this, { productList ->
                 productAdapter.submitList(productList)
+                binding.recyclerProducts.smoothScrollToPosition(0)
             })
             when (it) {
                 is UiState.Loading -> loading.show()
