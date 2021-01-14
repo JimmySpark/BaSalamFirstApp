@@ -17,11 +17,10 @@ import javax.inject.Singleton
 class ProductRepository @Inject constructor(
     private val db: AppDatabase,
     private val apollo: ApolloClient,
-    private val executor: ThreadExecutor,
-    private val size: Int
+    private val executor: ThreadExecutor
 ) {
 
-    fun getProducts(responseState: ResponseState): ResponseType {
+    fun getProducts(size: Int, responseState: ResponseState): ResponseType {
         apollo.query(GetProductsQuery(size)).watcher().enqueueAndWatch(object :
             ApolloCall.Callback<GetProductsQuery.Data>() {
             override fun onResponse(response: Response<GetProductsQuery.Data>) {

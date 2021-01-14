@@ -10,6 +10,7 @@ class ApiModule {
     private val serverUrl = "https://api.basalam.com/api/user"
 
     @Provides
+    @Singleton
     fun provideApi(): ApolloClient {
         return ApolloClient.builder()
             .serverUrl(serverUrl)

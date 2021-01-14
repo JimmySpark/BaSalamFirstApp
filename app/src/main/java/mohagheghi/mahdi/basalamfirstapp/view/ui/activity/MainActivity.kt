@@ -13,8 +13,12 @@ import mohagheghi.mahdi.basalamfirstapp.App
 import mohagheghi.mahdi.basalamfirstapp.databinding.ActivityMainBinding
 import mohagheghi.mahdi.basalamfirstapp.di.component.ActivityComponent
 import mohagheghi.mahdi.basalamfirstapp.di.component.AppComponent
+import mohagheghi.mahdi.basalamfirstapp.view.ui.adapter.ProductsAdapter
+import mohagheghi.mahdi.basalamfirstapp.view.util.Loading
 import mohagheghi.mahdi.basalamfirstapp.view.util.UiState
 import mohagheghi.mahdi.basalamfirstapp.view.viewmodel.ProductViewModel
+import mohagheghi.mahdi.basalamfirstapp.view.viewmodel.ViewModelFactory
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +27,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appComponent: AppComponent
     private lateinit var activityComponent: ActivityComponent
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var productAdapter: ProductsAdapter
+    @Inject
+    lateinit var loading: Loading
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -30,21 +41,20 @@ class MainActivity : AppCompatActivity() {
 
         appComponent = (application as App).getComponent()
         activityComponent = appComponent.getActivityComponentFactory().create(this)
+        activityComponent.inject(this)
 
         initRecyclerView()
 
-        viewModel = ViewModelProvider(this, appComponent.getViewModelFactory())
+        viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ProductViewModel::class.java)
 
         initObservers()
     }
 
     private fun initObservers() {
-        val loading = activityComponent.getLoading()
-
         viewModel.data.observe(this, {
             it.products.observe(this, { productList ->
-                appComponent.getRecyclerAdapter().submitList(productList)
+                productAdapter.submitList(productList)
             })
             when (it) {
                 is UiState.Loading -> loading.show()
@@ -67,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         binding.recyclerProducts.apply {
-            adapter = appComponent.getRecyclerAdapter()
+            adapter = productAdapter
             layoutManager = GridLayoutManager(this@MainActivity, 2)
             setHasFixedSize(true)
         }

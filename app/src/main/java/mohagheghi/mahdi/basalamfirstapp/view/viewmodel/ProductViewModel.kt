@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import mohagheghi.mahdi.basalamfirstapp.data.repository.ProductRepository
 import mohagheghi.mahdi.basalamfirstapp.data.util.ResponseType
-import mohagheghi.mahdi.basalamfirstapp.view.util.UiState
 import mohagheghi.mahdi.basalamfirstapp.view.util.ResponseState
+import mohagheghi.mahdi.basalamfirstapp.view.util.UiState
 import javax.inject.Inject
 
 class ProductViewModel @Inject constructor(private val repository: ProductRepository) :
@@ -19,7 +19,7 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     }
 
     fun loadData() {
-        val response = repository.getProducts(object : ResponseState {
+        val response = repository.getProducts(20, object : ResponseState {
             override fun onResponse(response: ResponseType) {
                 when (response) {
                     is ResponseType.Success ->
