@@ -9,8 +9,11 @@ import com.squareup.picasso.Picasso
 import mohagheghi.mahdi.basalamfirstapp.R
 import mohagheghi.mahdi.basalamfirstapp.data.local.entity.Product
 import mohagheghi.mahdi.basalamfirstapp.databinding.ItemProductBinding
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ProductsAdapter :
+@Singleton
+class ProductsAdapter @Inject constructor() :
     ListAdapter<Product, ProductsAdapter.ProductViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {

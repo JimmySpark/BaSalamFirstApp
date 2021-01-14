@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import mohagheghi.mahdi.basalamfirstapp.R
 import mohagheghi.mahdi.basalamfirstapp.databinding.LoadingBinding
+import javax.inject.Inject
+import javax.inject.Named
 
-class Loading(context: Context) {
+class Loading @Inject constructor(@Named("loading context") context: Context) {
 
     private var dialog: AlertDialog
 

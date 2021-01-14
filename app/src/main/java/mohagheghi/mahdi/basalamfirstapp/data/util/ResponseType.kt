@@ -1,4 +1,4 @@
-package mohagheghi.mahdi.basalamfirstapp.data.repository
+package mohagheghi.mahdi.basalamfirstapp.data.util
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

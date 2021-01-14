@@ -4,36 +4,45 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import mohagheghi.mahdi.basalamfirstapp.data.repository.ProductRepository
-import mohagheghi.mahdi.basalamfirstapp.data.repository.ResponseType
-import mohagheghi.mahdi.basalamfirstapp.view.ui.UiState
+import mohagheghi.mahdi.basalamfirstapp.data.util.ResponseType
+import mohagheghi.mahdi.basalamfirstapp.view.util.UiState
 import mohagheghi.mahdi.basalamfirstapp.view.util.ResponseState
+import javax.inject.Inject
 
-class ProductViewModel(private val repository: ProductRepository) : ViewModel() {
+class ProductViewModel @Inject constructor(private val repository: ProductRepository) :
+    ViewModel() {
 
-    val data = MutableLiveData<UiState>(UiState.Loading)
+    val data: MutableLiveData<UiState> = MutableLiveData()
 
     init {
         loadData()
     }
 
     fun loadData() {
-        repository.getProducts(object : ResponseState {
+        val response = repository.getProducts(object : ResponseState {
             override fun onResponse(response: ResponseType) {
                 when (response) {
-                    is ResponseType.Success -> data.postValue(UiState.Success(response.products))
-                    is ResponseType.Error -> {
-                        when (response.errorCode) {
-                            500 -> data.postValue(UiState.Error.ResponseError(response.errorMessage))
-                            501 -> {
-                                if (response.errorMessage != null)
-                                    Log.e("getProducts", response.errorMessage)
-                                data.postValue(UiState.Error.NetworkError)
-                            }
-                        }
-                    }
-                    ResponseType.EmptyList -> data.postValue(UiState.EmptyList)
+                    is ResponseType.Success ->
+                        data.postValue(UiState.Success(response.products))
+                    is ResponseType.Error ->
+                        handleErrors(response.errorCode, response.errorMessage)
+                    ResponseType.EmptyList ->
+                        data.postValue(UiState.EmptyList)
                 }
             }
         })
+
+        data.postValue(UiState.Loading(response.products))
+    }
+
+    private fun handleErrors(errorCode: Int, errorMessage: String?) {
+        when (errorCode) {
+            500 -> data.postValue(UiState.Error.ResponseError(errorMessage!!))
+            501 -> {
+                if (errorMessage != null)
+                    Log.e("getProducts", errorMessage)
+                data.postValue(UiState.Error.NetworkError)
+            }
+        }
     }
 }

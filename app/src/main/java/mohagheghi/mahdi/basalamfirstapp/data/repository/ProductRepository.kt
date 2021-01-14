@@ -5,29 +5,34 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import mohagheghi.mahdi.basalamfirstapp.GetProductsQuery
+import mohagheghi.mahdi.basalamfirstapp.data.local.AppDatabase
 import mohagheghi.mahdi.basalamfirstapp.data.util.ProductMapper
-import mohagheghi.mahdi.basalamfirstapp.data.local.dao.ProductDao
+import mohagheghi.mahdi.basalamfirstapp.data.util.ResponseType
+import mohagheghi.mahdi.basalamfirstapp.data.util.ThreadExecutor
 import mohagheghi.mahdi.basalamfirstapp.view.util.ResponseState
-import java.util.concurrent.Executor
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ProductRepository(
-    private val productDao: ProductDao,
+@Singleton
+class ProductRepository @Inject constructor(
+    private val db: AppDatabase,
     private val apollo: ApolloClient,
-    private val executor: Executor
+    private val executor: ThreadExecutor,
+    private val size: Int
 ) {
 
     fun getProducts(responseState: ResponseState): ResponseType {
-        apollo.query(GetProductsQuery(20)).watcher().enqueueAndWatch(object :
+        apollo.query(GetProductsQuery(size)).watcher().enqueueAndWatch(object :
             ApolloCall.Callback<GetProductsQuery.Data>() {
             override fun onResponse(response: Response<GetProductsQuery.Data>) {
                 if (response.data != null) {
                     val products = ProductMapper(response.data!!).map()
                     executor.execute {
-                        productDao.deleteAll()
-                        productDao.addAll(products)
+                        db.productDao().deleteAll()
+                        db.productDao().addAll(products)
                     }
                     if (products.isNotEmpty())
-                        responseState.onResponse(ResponseType.Success(productDao.getAll()))
+                        responseState.onResponse(ResponseType.Success(db.productDao().getAll()))
                     else
                         responseState.onResponse(ResponseType.EmptyList)
                 } else {
@@ -46,6 +51,6 @@ class ProductRepository(
             }
 
         })
-        return ResponseType.Success(productDao.getAll())
+        return ResponseType.Success(db.productDao().getAll())
     }
 }

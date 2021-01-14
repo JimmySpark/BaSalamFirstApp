@@ -1,4 +1,4 @@
-package mohagheghi.mahdi.basalamfirstapp.data.local.dao
+package mohagheghi.mahdi.basalamfirstapp.data.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
