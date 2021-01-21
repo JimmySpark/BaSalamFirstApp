@@ -9,14 +9,14 @@ import javax.inject.Singleton
 
 @InstallIn(ApplicationComponent::class)
 @Module
-class ApiModule {
-    private val serverUrl = "https://api.basalam.com/api/user"
+object ApiModule {
+    private const val SERVER_URL = "https://api.basalam.com/api/user"
 
     @Provides
     @Singleton
     fun provideApi(): ApolloClient {
         return ApolloClient.builder()
-            .serverUrl(serverUrl)
+            .serverUrl(SERVER_URL)
             .build()
     }
 }

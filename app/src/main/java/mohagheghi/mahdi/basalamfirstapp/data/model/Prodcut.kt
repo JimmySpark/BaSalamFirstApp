@@ -16,7 +16,7 @@ data class Product(
     @Embedded val rating: Rating
 ) {
     data class Photo(
-        val url: String
+        @ColumnInfo(name = "photo_url") val url: String
     )
 
     data class Vendor(

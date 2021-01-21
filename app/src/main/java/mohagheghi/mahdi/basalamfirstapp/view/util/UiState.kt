@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import mohagheghi.mahdi.basalamfirstapp.data.local.entity.Product
 
 sealed class UiState(
-    val products: LiveData<List<Product>> = MutableLiveData(emptyList()),
+    val products: LiveData<List<Product>> = MutableLiveData(),
     val errorMessage: String = ""
 ) {
     class Loading(products: LiveData<List<Product>>) : UiState(products = products)

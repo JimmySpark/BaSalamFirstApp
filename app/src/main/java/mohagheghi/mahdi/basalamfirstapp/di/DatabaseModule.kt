@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @InstallIn(ApplicationComponent::class)
 @Module
-class DatabaseModule() {
+object DatabaseModule {
 
     @Provides
     @Singleton
@@ -20,7 +20,7 @@ class DatabaseModule() {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java,
-            "app_db"
+            AppDatabase.DB_NAME
         )
             .fallbackToDestructiveMigration()
             .build()

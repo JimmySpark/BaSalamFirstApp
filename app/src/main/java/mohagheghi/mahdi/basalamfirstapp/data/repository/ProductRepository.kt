@@ -5,7 +5,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import mohagheghi.mahdi.basalamfirstapp.GetProductsQuery
-import mohagheghi.mahdi.basalamfirstapp.data.local.AppDatabase
+import mohagheghi.mahdi.basalamfirstapp.data.local.ProductDao
 import mohagheghi.mahdi.basalamfirstapp.data.util.ProductMapper
 import mohagheghi.mahdi.basalamfirstapp.data.util.ResponseType
 import mohagheghi.mahdi.basalamfirstapp.data.util.ThreadExecutor
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ProductRepository @Inject constructor(
-    private val db: AppDatabase,
+    private val productDao: ProductDao,
     private val apollo: ApolloClient,
     private val executor: ThreadExecutor
 ) {
@@ -27,11 +27,11 @@ class ProductRepository @Inject constructor(
                 if (response.data != null) {
                     val products = ProductMapper(response.data!!).map()
                     executor.execute {
-                        db.productDao().deleteAll()
-                        db.productDao().addAll(products)
+                        productDao.deleteAll()
+                        productDao.addAll(products)
                     }
                     if (products.isNotEmpty())
-                        responseState.onResponse(ResponseType.Success(db.productDao().getAll()))
+                        responseState.onResponse(ResponseType.Success(productDao.getAll()))
                     else
                         responseState.onResponse(ResponseType.EmptyList)
                 } else {
@@ -50,6 +50,6 @@ class ProductRepository @Inject constructor(
             }
 
         })
-        return ResponseType.Success(db.productDao().getAll())
+        return ResponseType.Success(productDao.getAll())
     }
 }
